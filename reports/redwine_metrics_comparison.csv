@@ -1,0 +1,4 @@
+Modelo,R2,MAE,RMSE
+M4: Árbol de Decisión,0.4298,0.4965,0.6356
+M5: Regresión Polinómica (G2),0.3864,0.4937,0.6593
+M6: Perceptrón Multicapa,0.3412,0.5215,0.6831

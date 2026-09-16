@@ -1,0 +1,7 @@
+Dataset,Modelo,R2,RMSE,MAE
+Candy,M1: Árbol de Decisión,0.0827,13.5605,
+Candy,M2: SVM (SVR),-0.0319,14.3831,
+Candy,M3: Perceptrón Multicapa,0.1216,13.2699,
+Wine,M4: Árbol de Decisión,0.4298,0.6356,0.4965
+Wine,M5: Regresión Polinómica (G2),0.3864,0.6593,0.4937
+Wine,M6: Perceptrón Multicapa,0.3412,0.6831,0.5215

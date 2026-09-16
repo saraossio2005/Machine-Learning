@@ -7,15 +7,12 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from src.data_cleaning import run_cleaning_pipeline
 from src.data_split import run_split_pipeline
-from src.models import (
-    modelo_1_arbol_decision_candy,
-    modelo_2_svm_candy,
-    run_models_pipeline,
-)
+from src.models import run_models_pipeline
 
-def legacy_main():
+
+def main():
     print("==================================================")
-    print("       PROCESAMIENTO Y PREPARACIÓN DE DATOS       ")
+    print("   PIPELINE COMPLETO: 6 MODELOS (CANDY + WINE)   ")
     print("==================================================\n")
 
     # ----------------------------------------------------
@@ -31,7 +28,7 @@ def legacy_main():
     # ----------------------------------------------------
     # PASO 2: DIVISIÓN DE DATOS Y ESCALADO (StandardScaler)
     # ----------------------------------------------------
-    print("[PASO 2/3] Dividiendo y escalando datasets (Train/Test)...")
+    print("\n[PASO 2/3] Dividiendo y escalando datasets (Train/Test)...")
     try:
         run_split_pipeline()
     except Exception as e:
@@ -39,9 +36,9 @@ def legacy_main():
         return
 
     # ----------------------------------------------------
-    # PASO 3: ENTRENAMIENTO Y EVALUACIÓN DE MODELOS
+    # PASO 3: ENTRENAMIENTO Y EVALUACIÓN DE LOS 6 MODELOS
     # ----------------------------------------------------
-    print("[PASO 3/3] Entrenando y evaluando modelos...")
+    print("\n[PASO 3/3] Entrenando y evaluando los 6 modelos...")
     try:
         run_models_pipeline()
     except Exception as e:
@@ -49,35 +46,9 @@ def legacy_main():
         return
 
     print("\n==================================================")
-    print("  ¡PROCESAMIENTO DE DATOS COMPLETADO EXITOSAMENTE!")
-    print("  - Datasets limpios y particionados en: data/processed/")
-    print("==================================================")
-
-def main():
-    """Entrena los dos modelos solicitados con los CSV Candy ya procesados."""
-    print("==================================================")
-    print("          ENTRENAMIENTO DE MODELOS CANDY          ")
-    print("==================================================\n")
-
-    # Los CSV procesados ya están limpios y escalados.
-    print("[PASO 1/1] Entrenando y evaluando modelos...")
-    try:
-        resultados = [
-            modelo_1_arbol_decision_candy(),
-            modelo_2_svm_candy(),
-        ]
-    except Exception as error:
-        print(f"   [!] Error durante el entrenamiento: {error}")
-        return
-
-    # Unir las métricas devueltas por ambos modelos en una tabla comparativa.
-    tabla_metricas = pd.DataFrame(resultados)
-    print("\n================ TABLA COMPARATIVA ================")
-    print(tabla_metricas.to_string(index=False))
-
-    print("\n==================================================")
-    print("  MODELOS CANDY ENTRENADOS EXITOSAMENTE")
-    print("  - Modelos guardados en: models_saved/candy/")
+    print("  ¡PIPELINE COMPLETADO EXITOSAMENTE!")
+    print("  - Modelos guardados en: models_saved/")
+    print("  - Reportes guardados en: reports/")
     print("==================================================")
 
 
