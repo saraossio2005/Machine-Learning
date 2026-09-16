@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
@@ -33,6 +34,68 @@ def save_model(model, model_name: str, dataset_name: str, output_folder: str = '
     file_path = os.path.join(path, f"{model_name}.joblib")
     joblib.dump(model, file_path)
     print(f"   [+] Modelo guardado en: {file_path}")
+
+
+# ==========================================
+# MODELOS AUTÓNOMOS: DATASET CANDY
+# ==========================================
+
+def modelo_1_arbol_decision_candy():
+    """Entrena, evalúa y guarda el árbol de decisión para el dataset Candy."""
+    # Construir rutas absolutas a partir de la ubicación de este archivo.
+    project_root = Path(__file__).resolve().parent.parent
+    processed_folder = project_root / "data" / "processed"
+    model_path = project_root / "models_saved" / "candy" / "01_arbol_decision.joblib"
+
+    # Cargar los conjuntos ya limpios, divididos y escalados.
+    X_train = pd.read_csv(processed_folder / "candy_X_train.csv")
+    y_train = pd.read_csv(processed_folder / "candy_y_train.csv").squeeze("columns")
+    X_test = pd.read_csv(processed_folder / "candy_X_test.csv")
+    y_test = pd.read_csv(processed_folder / "candy_y_test.csv").squeeze("columns")
+
+    # Entrenar el modelo con los hiperparámetros requeridos.
+    model = DecisionTreeRegressor(max_depth=5, random_state=42)
+    model.fit(X_train, y_train)
+
+    # Predecir y calcular las métricas de regresión.
+    predictions = model.predict(X_test)
+    r2 = r2_score(y_test, predictions)
+    rmse = np.sqrt(mean_squared_error(y_test, predictions))
+
+    # Crear el destino si no existe y persistir el modelo entrenado.
+    model_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, model_path)
+
+    return {"modelo": "Arbol de Decision", "r2": r2, "rmse": rmse}
+
+
+def modelo_2_svm_candy():
+    """Entrena, evalúa y guarda el modelo SVM (SVR) para el dataset Candy."""
+    # Construir rutas absolutas a partir de la ubicación de este archivo.
+    project_root = Path(__file__).resolve().parent.parent
+    processed_folder = project_root / "data" / "processed"
+    model_path = project_root / "models_saved" / "candy" / "02_svm.joblib"
+
+    # Cargar los conjuntos ya limpios, divididos y escalados.
+    X_train = pd.read_csv(processed_folder / "candy_X_train.csv")
+    y_train = pd.read_csv(processed_folder / "candy_y_train.csv").squeeze("columns")
+    X_test = pd.read_csv(processed_folder / "candy_X_test.csv")
+    y_test = pd.read_csv(processed_folder / "candy_y_test.csv").squeeze("columns")
+
+    # Entrenar el SVR con kernel RBF y C=1.0.
+    model = SVR(kernel="rbf", C=1.0)
+    model.fit(X_train, y_train)
+
+    # Predecir y calcular las métricas de regresión.
+    predictions = model.predict(X_test)
+    r2 = r2_score(y_test, predictions)
+    rmse = np.sqrt(mean_squared_error(y_test, predictions))
+
+    # Crear el destino si no existe y persistir el modelo entrenado.
+    model_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, model_path)
+
+    return {"modelo": "SVM", "r2": r2, "rmse": rmse}
 
 
 # ==========================================
