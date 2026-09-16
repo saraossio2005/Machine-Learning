@@ -64,7 +64,7 @@ def train_candy_mlp(X_train, y_train):
         hidden_layer_sizes=(32, 16),
         activation='relu',
         solver='adam',
-        max_iter=1000,
+        max_iter=500,
         random_state=42
     )
     model.fit(X_train, y_train.values.ravel())
@@ -73,7 +73,7 @@ def train_candy_mlp(X_train, y_train):
 
 # --- DATASET 2: WINE QUALITY DATA ---
 
-def train_wine_dt(X_train, y_train, max_depth: int = 6):
+def train_wine_dt(X_train, y_train, max_depth: int = 5):
     """Modelo 4: Árbol de Decisión para Wine Quality"""
     print("-> Entrenando M4: Árbol de Decisión (Wine Quality)...")
     model = DecisionTreeRegressor(max_depth=max_depth, random_state=42)

@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from src.data_cleaning import run_cleaning_pipeline
 from src.data_split import run_split_pipeline
+from src.models import run_models_pipeline
 
 def main():
     print("==================================================")
@@ -15,7 +16,7 @@ def main():
     # ----------------------------------------------------
     # PASO 1: LIMPIEZA Y PREPROCESAMIENTO DE DATOS
     # ----------------------------------------------------
-    print("[PASO 1/2] Ejecutando limpieza de datasets...")
+    print("[PASO 1/3] Ejecutando limpieza de datasets...")
     try:
         run_cleaning_pipeline()
     except Exception as e:
@@ -25,11 +26,21 @@ def main():
     # ----------------------------------------------------
     # PASO 2: DIVISIÓN DE DATOS Y ESCALADO (StandardScaler)
     # ----------------------------------------------------
-    print("[PASO 2/2] Dividiendo y escalando datasets (Train/Test)...")
+    print("[PASO 2/3] Dividiendo y escalando datasets (Train/Test)...")
     try:
         run_split_pipeline()
     except Exception as e:
         print(f"   [!] Error en el Paso 2 (División/Escalado): {e}")
+        return
+
+    # ----------------------------------------------------
+    # PASO 3: ENTRENAMIENTO Y EVALUACIÓN DE MODELOS
+    # ----------------------------------------------------
+    print("[PASO 3/3] Entrenando y evaluando modelos...")
+    try:
+        run_models_pipeline()
+    except Exception as e:
+        print(f"   [!] Error en el Paso 3 (Modelos): {e}")
         return
 
     print("\n==================================================")
